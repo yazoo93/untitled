@@ -1,0 +1,18 @@
+CREATE PROCEDURE `aggiorna_posizione` (
+									   in matricola_veicolo int,
+									   in lat float,
+									   in lon float
+                                       )
+BEGIN
+	declare exit handler for sqlexception
+    begin 
+		rollback;
+		resignal;
+	end;
+	set transaction isolation level serializable;
+	start transaction;
+	update veicolo 
+	set lat= lat, longitudine =lon
+	where veicolo.matricola_veicolo=matricola_veicolo;
+	commit;
+END	
